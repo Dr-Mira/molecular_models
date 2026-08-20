@@ -3849,6 +3849,27 @@
             "description": "Paracetamol, also known as acetaminophen, is a common medication used to treat pain and fever. While its exact mechanism of action is still being studied, it is thought to work primarily by inhibiting prostaglandin synthesis in the central nervous system. It is often preferred over NSAIDs for people with stomach issues or those at risk of bleeding, but it must be taken carefully as high doses can cause severe liver damage.",
             "weight": "2.2 g"
         },
+        {
+            "name": "oxytocin",
+            "pack": "pack_17_hormones",
+            "displayed_name": "Oxytocin",
+            "smiles": "[H]N[C@H]1CSSC[C@H](NC(=O)[C@H](CC(N)=O)NC(=O)[C@H](CCC(N)=O)NC(=O)[C@@H](NC(=O)[C@H](Cc2ccc(O)cc2)NC1=O)[C@@H](C)CC)C(=O)N3CCC[C@H]3C(=O)N[C@@H](CC(C)C)C(=O)NCC(N)=O",
+            "images": [
+                "assets/pack_17_hormones/oxytocin/_1_oxytocin.jpeg",
+                "assets/pack_17_hormones/oxytocin/_2_oxytocin.jpeg"
+            ],
+            "concepts": [
+                "hormone",
+                "neuropeptide",
+                "nonapeptide",
+                "social bonding",
+                "uterine contraction"
+            ],
+            "category": "pack_17_hormones",
+            "url": "",
+            "description": "Oxytocin is a cyclic nonapeptide hormone and neuropeptide produced in the hypothalamus and released by the posterior pituitary. It plays important roles in uterine contractions during labor, milk ejection during breastfeeding, and social bonding. The peptide contains a disulfide bridge between two cysteine residues.",
+            "weight": "14.5 g"
+        },
 
                 {
             "name": "chemistry_clock",
@@ -3858,6 +3879,7 @@
                 "assets/miscellaneous/chemistry_clock/chemistry_clock.jpg"
             ],
             "concepts": [
+                "household",
                 "decor",
                 "clock",
                 "time"
@@ -3886,5 +3908,5 @@
             "weight": "ca. 60 g"
         }
     ],
-    "Count": 184
+    "Count": 186
 }
