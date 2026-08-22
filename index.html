@@ -1017,18 +1017,48 @@
       </div>
       <div class="modal-body">
 
-        <h3>Methods</h3>
-        <p>Molecular geometries were obtained through a two-stage optimization pipeline implemented in a custom Python
-          script. Starting from SMILES notation, the script generates ~2,000 conformers using the Merck Molecular Force
-          Field (MMFF94) [1] to broadly sample the conformational space. The top 10 lowest-energy conformers from this
-          classical screening are then refined using density functional theory (DFT) at the ωB97X-D/def2-SVP level [2].
-          The lowest-energy DFT-optimized structure is selected as the final geometry. Atoms are rendered as
-          spheres scaled to van der Waals radii [3], and bond orders correspond to the dominant resonance contributor as
-          encoded in the input SMILES. Each model is visually verified against PubChem [4], exported as STL, and
-          manually colored with the CPK convention in a slicer. Running on an Intel Core i7-14700T using all 20
-          cores, the pipeline averaged approximately 10 minutes per molecule.</p>
+        <h3>General</h3>
+        <p>For the vast majority of molecules, geometries were obtained through a two-stage optimization pipeline
+          implemented in a custom Python script. Starting from SMILES notation, the script generates ~2,000 conformers
+          using the Merck Molecular Force Field (MMFF94) [1] to broadly sample the conformational space. The top 10
+          lowest-energy conformers from this classical screening are then refined using density functional theory (DFT)
+          at the ωB97X-D/def2-SVP level [2]. The lowest-energy DFT-optimized structure is selected as the final
+          geometry. Atoms are rendered as spheres scaled to van der Waals radii [3], and bond orders correspond to the
+          dominant resonance contributor as encoded in the input SMILES. Each model is visually verified against
+          PubChem [4], exported as STL, and manually colored with the CPK convention in a slicer. Running on an Intel
+          Core i7-14700T using all 20 cores, the pipeline averaged approximately 10 minutes per molecule.</p>
 
-        <h3>Force Fields</h3>
+        <p>For larger molecules that are not practical to treat with the full two-stage optimization, initial geometries
+          were taken from publicly available experimental structural datasets obtained by X-ray diffraction, nuclear
+          magnetic resonance spectroscopy, or cryogenic electron microscopy. If needed, hydrogen atoms were added according
+          to local VSEPR and the resulting structure was relaxed with MMFF94 to place the added atoms in a low-energy
+          geometry. The final geometry was then mapped onto the input SMILES representation so that connectivity and
+          bond orders reflect the major resonance contributor before STL export.</p>
+
+
+        <h3>Experimental Methods</h3>
+        <h4>X-ray Diffraction</h4>
+        <p>X-ray diffraction (XRD) determines molecular structure by measuring how a crystal scatters an incident X-ray beam.
+          The resulting diffraction pattern is used to calculate an electron-density map, from which atomic coordinates
+          are refined. This method is especially effective for determining the three-dimensional arrangement of heavier
+          atoms in a crystalline sample, although hydrogen positions are often less precise because hydrogen scatters
+          X-rays weakly.</p>
+        <h4>Nuclear Magnetic Resonance</h4>
+        <p>Nuclear magnetic resonance (NMR) spectroscopy infers molecular structure from the magnetic environments of
+          nuclei placed in a strong magnetic field. Chemical shifts, spin-spin couplings, and nuclear Overhauser effects
+          provide information about connectivity, local bonding, and distances between atoms. Because NMR measurements
+          are commonly performed in solution, they can also describe conformational flexibility and the structures of
+          molecules that do not readily form suitable crystals.</p>
+        <h4>Cryogenic Electron Microscopy</h4>
+        <p>Cryogenic electron microscopy (cryo-EM) determines molecular structures from many images of particles that
+          have been rapidly frozen in a thin layer of vitreous ice. Computational reconstruction combines these
+          different views to generate a three-dimensional map of the molecule or molecular assembly. Cryo-EM is
+          particularly valuable for studying large biomolecules and macromolecular complexes, including membrane
+          proteins, because it does not require the formation of crystals. For example, membrane proteins can be examined
+          while embedded in native membranes.</p>
+
+        <h3>Calculation Methods</h3>
+        <h4>Force Fields</h4>
         <p>The initial conformational search relies on MMFF94, a well-established classical force field parameterized
           against high-level ab initio data for a broad range of organic and drug-like molecules [1]. MMFF94 describes
           the potential energy surface through analytical terms for bond stretching, angle bending, torsional rotation,
@@ -1037,7 +1067,7 @@
           quantum mechanical methods [5]. This makes it well suited for rapidly screening thousands of candidate
           geometries before passing a small subset to DFT refinement.</p>
 
-        <h3>Density Functional Theory</h3>
+        <h4>Density Functional Theory</h4>
         <p>Final geometry optimizations are performed with the ωB97X-D functional [6] paired with the def2-SVP basis set
           [7], executed through the Psi4 electronic structure package [2]. ωB97X-D is a range-separated hybrid
           functional that includes an empirical dispersion correction, making it particularly effective for capturing
@@ -1112,6 +1142,8 @@
             Thermochemistry, Kinetics, and Noncovalent Interactions. <em>Phys. Chem. Chem. Phys.</em>
             <strong>2011</strong>, <em>13</em>, 6670–6688.
           </li>
+          <li>RCSB Protein Data Bank. Structure 7RYC. <a href="https://www.rcsb.org/structure/7RYC"
+              target="_blank">https://www.rcsb.org/structure/7RYC</a></li>
         </ol>
       </div>
     </div>
@@ -1130,6 +1162,7 @@
 
         <ul class="modal-print-specs">
           <li><strong>Model Weight:</strong> <span id="modal-weight">XX</span></li>
+          <li><strong>Workflow:</strong> <span id="modal-workflow"></span></li>
         </ul>
 
         <div class="modal-description" id="modal-description">
@@ -1177,7 +1210,6 @@
     }
 
     let currentMolecule = null;
-
     function openModal(m) {
       if (m === 'methods') {
         methodsModal.classList.add('open');
@@ -1186,6 +1218,7 @@
         // Populate molecule modal
         document.getElementById('modal-name').textContent = m.displayed_name || m.name;
         document.getElementById('modal-weight').textContent = m.weight || "XX";
+        document.getElementById('modal-workflow').textContent = m.workflow || "";
         document.getElementById('modal-description').textContent = m.description || "A detailed 3D printable model of this molecule, calculated with molecular force fields for accurate geometry.";
         const downloadUrl = m.url || m.URL || "#";
         document.getElementById('modal-download-link').href = downloadUrl;
